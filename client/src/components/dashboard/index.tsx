@@ -1,4 +1,3 @@
-"use client";
 import { useState } from "react";
 import { FaRegCircle, FaRegCheckCircle } from "react-icons/fa";
 
