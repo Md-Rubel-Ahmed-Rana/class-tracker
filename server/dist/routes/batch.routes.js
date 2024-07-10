@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.BatchRoutes = void 0;
+const express_1 = require("express");
+const batch_controller_1 = require("../controllers/batch.controller");
+const router = (0, express_1.Router)();
+router.post("/create-batch", batch_controller_1.BatchController.createBatch);
+router.get("/", batch_controller_1.BatchController.getAllBatch);
+router.get("/single/:id", batch_controller_1.BatchController.getSingleBatch);
+router.patch("/update/:id", batch_controller_1.BatchController.updateBatch);
+router.delete("/delete/:id", batch_controller_1.BatchController.deleteBatch);
+exports.BatchRoutes = router;

@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UserRoutes = void 0;
+const express_1 = require("express");
+const user_controller_1 = require("../controllers/user.controller");
+const JwtMiddleware_1 = require("../middlewares/JwtMiddleware");
+const validateRequest_1 = __importDefault(require("../middlewares/validateRequest"));
+const user_validator_1 = require("../validators/user.validator");
+const authorizeMiddleware_1 = __importDefault(require("../middlewares/authorizeMiddleware"));
+const router = (0, express_1.Router)();
+router.post("/register", (0, validateRequest_1.default)(user_validator_1.userValidationSchema.postUserSchema), user_controller_1.UserController.register);
+router.post("/login", (0, validateRequest_1.default)(user_validator_1.userValidationSchema.loginUserSchema), user_controller_1.UserController.login);
+router.get("/auth", JwtMiddleware_1.JwtMiddleware.authenticate, user_controller_1.UserController.auth);
+router.get("/", JwtMiddleware_1.JwtMiddleware.authenticate, user_controller_1.UserController.findUsers);
+router.get("/single/:id", JwtMiddleware_1.JwtMiddleware.authenticate, user_controller_1.UserController.findSingleUserById);
+router.patch("/update/:id", JwtMiddleware_1.JwtMiddleware.authenticate, (0, authorizeMiddleware_1.default)("admin", "super admin"), (0, validateRequest_1.default)(user_validator_1.userValidationSchema.updateUserSchema), user_controller_1.UserController.updateUser);
+router.delete("/delete/:id", JwtMiddleware_1.JwtMiddleware.authenticate, (0, authorizeMiddleware_1.default)("admin", "super admin"), user_controller_1.UserController.deleteUser);
+exports.UserRoutes = router;

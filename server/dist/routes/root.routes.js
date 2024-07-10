@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.RootRoutes = void 0;
+const express_1 = require("express");
+const user_routes_1 = require("./user.routes");
+const batch_routes_1 = require("./batch.routes");
+const class_routes_1 = require("./class.routes");
+const student_routes_1 = require("./student.routes");
+const router = (0, express_1.Router)();
+router.use("/user", user_routes_1.UserRoutes);
+router.use("/batch", batch_routes_1.BatchRoutes);
+router.use("/class", class_routes_1.ClassRoutes);
+router.use("/student", student_routes_1.StudentRoutes);
+exports.RootRoutes = router;
