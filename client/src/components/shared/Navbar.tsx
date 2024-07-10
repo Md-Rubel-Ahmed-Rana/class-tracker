@@ -7,40 +7,43 @@ const Navbar = () => {
       <h2 className="text-2xl font-semibold">ADC Institute</h2>
       <ul className="flex gap-2">
         <li>
-          <Link className="border px-3 py-1 rounded-md bg-gray-200" href={"/"}>
-            Home
+          <Link
+            className="border px-3 py-1 rounded-md bg-gray-200"
+            href={"/dashboard"}
+          >
+            Dashboard
           </Link>
         </li>
         <li>
           <Link
             className="border px-3 py-1 rounded-md bg-gray-200"
-            href={"/all-batches"}
+            href={"/batches"}
           >
-            All Batch
+            Batches
           </Link>
         </li>
         <li>
           <Link
             className="border px-3 py-1 rounded-md bg-gray-200"
-            href={"/add-new-batch"}
+            href={"/classes"}
           >
-            Add New Batch
+            Classes
           </Link>
         </li>
         <li>
           <Link
             className="border px-3 py-1 rounded-md bg-gray-200"
-            href={"/add-new-class"}
+            href={"/students"}
           >
-            Add New Class
+            Students
           </Link>
         </li>
         <li>
           <Link
             className="border px-3 py-1 rounded-md bg-gray-200"
-            href={"/add-new-student"}
+            href={"/users"}
           >
-            Add New Student
+            Users
           </Link>
         </li>
       </ul>
