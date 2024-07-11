@@ -1,5 +1,6 @@
 import { INewBatch } from "../interfaces/batch.interface";
 import { Batch } from "../models/batch.model";
+import { Class } from "../models/class.model";
 import { generateIncrementalNumber } from "../utils/generateIncrementalNumber";
 
 class Service {
@@ -19,6 +20,27 @@ class Service {
 
   async getSingleBatch(id: string) {
     return await Batch.findById(id);
+  }
+
+  async getBatchDetails(id: string) {
+    const batch: any = await Batch.findById(id);
+    const batchData = {
+      id: batch?._id,
+      name: batch?.name,
+      endingDate: batch?.endingDate,
+      batchNo: batch?.batchNo,
+      startingDate: batch?.startingDate,
+      createdAt: batch?.createdAt,
+      updatedAt: batch?.updatedAt,
+    };
+    const studentData = batch?.students.map((student: any) => ({
+      id: student?.id,
+      studentId: student?.studentId,
+      name: student?.name,
+    }));
+
+    const classes = await Class.find({ batchNo: batch?.batchNo });
+    return { batch: batchData, students: studentData, classes };
   }
 
   async deleteBatch(id: string) {

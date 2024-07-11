@@ -50,6 +50,22 @@ class Controller {
     }
   }
 
+  async getBatchDetails(req: Request, res: Response) {
+    try {
+      const data = await BatchService.getBatchDetails(req.params.id);
+      res.status(200).json({
+        success: true,
+        message: "Batch details fetched successfully!",
+        data: data,
+      });
+    } catch (error) {
+      console.error(`Error fetching batch details: ${error}`);
+      res
+        .status(500)
+        .json({ success: false, message: "Batch details fetching failed" });
+    }
+  }
+
   async updateBatch(req: Request, res: Response) {
     try {
       const data = await BatchService.updateBatch(req.params.id, req.body);
