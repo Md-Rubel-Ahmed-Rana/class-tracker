@@ -12,7 +12,7 @@ const StudentModal = ({ show, onClose, batchName, students }: Props) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white rounded-lg p-6 w-3/4 max-w-lg">
+      <div className="bg-white rounded-lg p-6 w-[96%] lg:w-3/4 max-w-lg">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">Students in {batchName}</h2>
           <button
