@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BatchService = void 0;
 const batch_model_1 = require("../models/batch.model");
+const class_model_1 = require("../models/class.model");
 const generateIncrementalNumber_1 = require("../utils/generateIncrementalNumber");
 class Service {
     createBatch(data) {
@@ -31,6 +32,27 @@ class Service {
     getSingleBatch(id) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield batch_model_1.Batch.findById(id);
+        });
+    }
+    getBatchDetails(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const batch = yield batch_model_1.Batch.findById(id);
+            const batchData = {
+                id: batch === null || batch === void 0 ? void 0 : batch._id,
+                name: batch === null || batch === void 0 ? void 0 : batch.name,
+                endingDate: batch === null || batch === void 0 ? void 0 : batch.endingDate,
+                batchNo: batch === null || batch === void 0 ? void 0 : batch.batchNo,
+                startingDate: batch === null || batch === void 0 ? void 0 : batch.startingDate,
+                createdAt: batch === null || batch === void 0 ? void 0 : batch.createdAt,
+                updatedAt: batch === null || batch === void 0 ? void 0 : batch.updatedAt,
+            };
+            const studentData = batch === null || batch === void 0 ? void 0 : batch.students.map((student) => ({
+                id: student === null || student === void 0 ? void 0 : student.id,
+                studentId: student === null || student === void 0 ? void 0 : student.studentId,
+                name: student === null || student === void 0 ? void 0 : student.name,
+            }));
+            const classes = yield class_model_1.Class.find({ batchNo: batch === null || batch === void 0 ? void 0 : batch.batchNo });
+            return { batch: batchData, students: studentData, classes };
         });
     }
     deleteBatch(id) {

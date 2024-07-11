@@ -66,6 +66,24 @@ class Controller {
             }
         });
     }
+    getBatchDetails(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const data = yield batch_service_1.BatchService.getBatchDetails(req.params.id);
+                res.status(200).json({
+                    success: true,
+                    message: "Batch details fetched successfully!",
+                    data: data,
+                });
+            }
+            catch (error) {
+                console.error(`Error fetching batch details: ${error}`);
+                res
+                    .status(500)
+                    .json({ success: false, message: "Batch details fetching failed" });
+            }
+        });
+    }
     updateBatch(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

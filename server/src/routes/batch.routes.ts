@@ -9,6 +9,8 @@ router.get("/", BatchController.getAllBatch);
 
 router.get("/single/:id", BatchController.getSingleBatch);
 
+router.get("/details/:id", BatchController.getBatchDetails);
+
 router.patch("/update/:id", BatchController.updateBatch);
 
 router.delete("/delete/:id", BatchController.deleteBatch);
