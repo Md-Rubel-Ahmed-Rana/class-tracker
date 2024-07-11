@@ -15,10 +15,11 @@ type Props = {
 
 const AppProvider = ({ children }: Props) => {
   const [batches, setBatches] = useState([]);
+  const [refetchBatch, setRefetchBatch] = useState(false);
 
   useEffect(() => {
     fetchBatches();
-  }, []);
+  }, [refetchBatch]);
 
   const fetchBatches = async () => {
     try {
@@ -32,6 +33,8 @@ const AppProvider = ({ children }: Props) => {
   const values = {
     batches,
     setBatches,
+    refetchBatch,
+    setRefetchBatch,
   };
 
   return <AppContext.Provider value={values}>{children}</AppContext.Provider>;

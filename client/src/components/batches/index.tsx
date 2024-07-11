@@ -25,7 +25,7 @@ const BatchesPage = () => {
           Add New Batch
         </Link>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {batches?.map((batch: IBatch) => (
           <div key={batch.id} className="p-4 border rounded-lg shadow-md">
             <h2 className="text-xl font-semibold">{batch.name}</h2>
@@ -39,13 +39,19 @@ const BatchesPage = () => {
                 onClick={() => handleSeeStudents(batch)}
                 className="bg-gray-200 py-1 px-5 w-full rounded-md font-semibold"
               >
-                See Students
+                Students
               </button>
               <Link
                 className="bg-gray-200 text-center py-1 px-5 w-full rounded-md font-semibold"
                 href={`/batches/classes/${batch.id}`}
               >
-                <button>See Classes</button>
+                <button>Classes</button>
+              </Link>
+              <Link
+                className="bg-gray-200 text-center py-1 px-5 w-full rounded-md font-semibold"
+                href={`/batches/details/${batch.id}?name=${batch.name}&batchNo=${batch.batchNo}`}
+              >
+                <button>Details</button>
               </Link>
             </div>
           </div>

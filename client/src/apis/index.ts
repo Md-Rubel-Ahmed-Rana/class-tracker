@@ -10,3 +10,12 @@ export const getApi = async (apiEndpoint: string) => {
     console.log("Error", error);
   }
 };
+
+export const postApi = async (apiEndpoint: string, payload: any) => {
+  try {
+    const data = await axios.post(`${baseApi}/${apiEndpoint}`, payload);
+    return data?.data;
+  } catch (error) {
+    console.log("Error", error);
+  }
+};

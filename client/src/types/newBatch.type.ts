@@ -1,4 +1,5 @@
 export type INewBatch = {
   name: string;
-  batchNo: number | string;
+  startingDate: Date | string;
+  endingDate: Date | string;
 };

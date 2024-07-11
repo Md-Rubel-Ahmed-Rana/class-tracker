@@ -1,8 +1,13 @@
+import AddNewBatchPage from "@/components/add-new-batch";
 import DashboardLayout from "@/layouts/dashboardLayout";
 import { ReactElement } from "react";
 
 const AddNewBatch = () => {
-  return <div className="min-h-screen">This is for add new batch</div>;
+  return (
+    <div className="min-h-screen">
+      <AddNewBatchPage />
+    </div>
+  );
 };
 
 export default AddNewBatch;
