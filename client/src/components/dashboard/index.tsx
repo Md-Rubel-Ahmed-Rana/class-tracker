@@ -163,12 +163,17 @@ const Home = () => {
     console.log(currentClass);
   };
 
+  const handleChangeBatch = (batchNo: string) => {
+    console.log(batchNo);
+  };
+
   return (
     <main className="lg:px-20 lg:py-10 p-4">
       <div className="flex justify-between flex-col lg:flex-row  font-semibold gap-4">
         <h1 className="text-lg lg:text-2xl">Web Design & Development Course</h1>
         <div className="flex gap-2 items-center">
           <select
+            onChange={(e) => handleChangeBatch(e.target.value)}
             className="border bg-gray-300 px-3 rounded-md py-1"
             name="batch"
             id="batch"

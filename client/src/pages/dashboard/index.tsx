@@ -4,14 +4,16 @@ import { ReactElement } from "react";
 
 const Dashboard = () => {
   return (
-    <section className="min-h-screen">
+    <section className="min-h-screen flex justify-center items-center">
       <GetHead
         title="Dashboard - Class Tracker"
         description="This class tracker dashboard"
         keywords="ADC, Class Tracker"
       />
 
-      <h3>This is dashboard</h3>
+      <h3 className="text-3xl font-bold">
+        Show chart, calculation for attendance etc.
+      </h3>
     </section>
   );
 };
