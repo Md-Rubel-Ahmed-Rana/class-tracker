@@ -121,7 +121,7 @@ const BatchDetailsPage = () => {
           </>
         ) : (
           <div className="flex justify-center items-center">
-            <h4 className="text-2xl font-semibold">No classes enrolled yet.</h4>
+            <h4 className="text-2xl font-semibold">No classes taken yet.</h4>
           </div>
         )}
       </div>
