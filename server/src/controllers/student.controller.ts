@@ -18,6 +18,23 @@ class Controller {
     }
   }
 
+  async getMyInfo(req: Request, res: Response) {
+    try {
+      const studentId = req.session.studentId as string;
+      const data = await StudentService.getMyInfo(studentId);
+      res.status(200).json({
+        success: true,
+        message: "Student info fetched successfully!",
+        data: data,
+      });
+    } catch (error) {
+      console.error(`Error fetching student info: ${error}`);
+      res
+        .status(500)
+        .json({ success: false, message: "Student info fetching failed" });
+    }
+  }
+
   async getAllStudent(req: Request, res: Response) {
     try {
       const data = await StudentService.getAllStudent();

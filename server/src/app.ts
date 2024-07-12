@@ -7,6 +7,7 @@ import { RootRoutes } from "./routes/root.routes";
 import fs from "fs";
 import path from "path";
 import handleZodValidationError from "./errors/validationError";
+import { Session } from "./config/mongoStore";
 
 dotenv.config();
 
@@ -16,6 +17,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(helmet());
+// set session middleware
+Session.connectSessionDatabase(app);
 
 // Middleware to log requests using Morgan and direct logs to the worker
 app.use(morgan("dev"));
