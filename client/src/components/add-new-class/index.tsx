@@ -1,49 +1,12 @@
-"use client";
+import { postApi } from "@/apis";
+import { AppContext } from "@/context/AppProvider";
+import { IBatch } from "@/types/batch.type";
 import { INewClass } from "@/types/newClass.type";
-import React from "react";
+import { IStudent } from "@/types/student.type";
+import { useRouter } from "next/router";
+import React, { useContext, useState } from "react";
 import { useForm, useFieldArray, SubmitHandler } from "react-hook-form";
-
-const students = [
-  {
-    id: "5464895",
-    name: "Habibur Rahman",
-  },
-  {
-    id: "5464895396345634",
-    name: "Salman Ahmed Khan",
-  },
-  {
-    id: "546445345895",
-    name: "Rahman",
-  },
-  {
-    id: "546489dfh dfgh5396345634",
-    name: "Ahmed Khan",
-  },
-];
-
-const batches = [
-  {
-    id: "3467896",
-    name: "Cohod",
-    batchNo: "ADC0001",
-  },
-  {
-    id: "34678987t8g6",
-    name: "Cohod",
-    batchNo: "ADC0002",
-  },
-  {
-    id: "3467896fghedrt",
-    name: "Cohod",
-    batchNo: "ADC0003",
-  },
-  {
-    id: "3467896rutheio5uth",
-    name: "Cohod",
-    batchNo: "ADC0004",
-  },
-];
+import Swal from "sweetalert2";
 
 const AddNewClassPage = () => {
   const {
@@ -62,7 +25,7 @@ const AddNewClassPage = () => {
     fields: presentFields,
     append: appendPresent,
     remove: removePresent,
-  } = useFieldArray({
+  } = useFieldArray<any>({
     control,
     name: "presentStudents",
   });
@@ -71,28 +34,105 @@ const AddNewClassPage = () => {
     fields: absentFields,
     append: appendAbsent,
     remove: removeAbsent,
-  } = useFieldArray({
+  } = useFieldArray<any>({
     control,
     name: "absenceStudents",
   });
 
+  const { batches }: { batches: IBatch[] | [] } = useContext(AppContext);
+  const [students, setStudents] = useState<IStudent[] | []>([]);
+  const [selectedBatch, setSelectedBatch] = useState<IBatch | null>(null);
+  const router = useRouter();
+
   const handleAddNewClass: SubmitHandler<INewClass> = async (data) => {
     try {
-      console.log(data);
+      if (students.length !== presentFields.length + absentFields.length) {
+        Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: "Invalid student list",
+          text: `You didn't select all students. ${
+            students.length - (presentFields.length + absentFields.length)
+          } students unselected. Add those either to the present or absence list.`,
+        });
+        return false;
+      }
+
+      // Filter students between students and presentFields array as an array of students (only filtered)
+      const presentStudents = students.filter((std) => {
+        return presentFields.some(
+          (present: any) => std.studentId === present.studentId
+        );
+      });
+      data.presentStudents = presentStudents?.map((student: any) => {
+        delete student?._id;
+        return student;
+      });
+
+      // Filter students between students and absentFields array as an array of students (only filtered)
+      const absenceStudents = students.filter((std) => {
+        return absentFields.some(
+          (absent: any) => std.studentId === absent.studentId
+        );
+      });
+      data.absenceStudents = absenceStudents?.map((student: any) => {
+        delete student?._id;
+        return student;
+      });
+
+      // Your API call or further processing with the `data` object
+      const result = await postApi("class/create-class", data);
+      if (result?.success === true) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Class added successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        router.push(
+          `batches/details/${selectedBatch?.id}?name=${selectedBatch?.name}&batchNo=${selectedBatch?.batchNo}`
+        );
+      }
     } catch (error) {
       console.error("Error creating class:", error);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Error",
+        text: "An error occurred while creating the class.",
+      });
     }
   };
 
-  const remainingStudents = students.filter(
-    (student) =>
-      !presentFields.some((present) => present.name === student.name) &&
-      !absentFields.some((absent) => absent.name === student.name)
+  const handleSelectBatch = (batchNo: string) => {
+    for (let i = presentFields.length - 1; i >= 0; i--) {
+      removePresent(i);
+    }
+    for (let i = absentFields.length - 1; i >= 0; i--) {
+      removeAbsent(i);
+    }
+
+    const findBatch = batches?.find((btch) => btch?.batchNo === batchNo);
+    if (findBatch) {
+      setStudents(findBatch.students);
+      setSelectedBatch(findBatch);
+    }
+  };
+
+  const remainingStudentsFiltered = students.filter(
+    (student: any) =>
+      !presentFields.some(
+        (present: any) => present.studentId === student.studentId
+      ) &&
+      !absentFields.some(
+        (absent: any) => absent.studentId === student.studentId
+      )
   );
 
   return (
-    <div className="p-20 flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-md w-full max-w-2xl">
+    <div className="p-20 flex items-center justify-center">
+      <div className="bg-gray-50 p-8 rounded shadow-md w-full max-w-2xl">
         <h2 className="text-2xl font-bold mb-6 text-center">Add New Class</h2>
         <form onSubmit={handleSubmit(handleAddNewClass)}>
           <div className="mb-4">
@@ -165,7 +205,7 @@ const AddNewClassPage = () => {
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="date"
+              htmlFor="classNo"
             >
               Class No.
             </label>
@@ -193,11 +233,12 @@ const AddNewClassPage = () => {
             <select
               {...register("batchNo", { required: "Batch is required" })}
               className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              onChange={(e) => handleSelectBatch(e.target.value)}
             >
               <option value="">Select a batch</option>
               {batches.map((batch) => (
-                <option key={batch.id} value={batch.id}>
-                  <span>{batch.batchNo}</span> | <span>{batch.name}</span>
+                <option key={batch.id} value={batch.batchNo}>
+                  {batch.batchNo}
                 </option>
               ))}
             </select>
@@ -211,14 +252,16 @@ const AddNewClassPage = () => {
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Present Students
             </label>
-            {presentFields.map((item, index) => (
+            {presentFields.map((item: any, index) => (
               <div key={item.id} className="flex mb-2">
                 <input
                   readOnly
                   type="text"
-                  {...register(`presentStudents.${index}.name`, {
-                    required: "Student name is required",
-                  })}
+                  value={
+                    students.find(
+                      (student) => student.studentId === item.studentId
+                    )?.name
+                  }
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
                 <button
@@ -233,15 +276,15 @@ const AddNewClassPage = () => {
             <select
               onChange={(e) => {
                 if (e.target.value) {
-                  appendPresent({ name: e.target.value });
+                  appendPresent({ studentId: e.target.value });
                   e.target.value = "";
                 }
               }}
               className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             >
               <option value="">Select student to add</option>
-              {remainingStudents.map((student) => (
-                <option key={student.id} value={student.name}>
+              {remainingStudentsFiltered.map((student) => (
+                <option key={student.id} value={student.studentId}>
                   {student.name}
                 </option>
               ))}
@@ -251,14 +294,16 @@ const AddNewClassPage = () => {
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Absent Students
             </label>
-            {absentFields.map((item, index) => (
+            {absentFields.map((item: any, index) => (
               <div key={item.id} className="flex mb-2">
                 <input
                   readOnly
                   type="text"
-                  {...register(`absenceStudents.${index}.name`, {
-                    required: "Student name is required",
-                  })}
+                  value={
+                    students.find(
+                      (student) => student.studentId === item.studentId
+                    )?.name
+                  }
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
                 <button
@@ -273,15 +318,15 @@ const AddNewClassPage = () => {
             <select
               onChange={(e) => {
                 if (e.target.value) {
-                  appendAbsent({ name: e.target.value });
+                  appendAbsent({ studentId: e.target.value });
                   e.target.value = "";
                 }
               }}
               className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             >
               <option value="">Select student to add</option>
-              {remainingStudents.map((student) => (
-                <option key={student.id} value={student.name}>
+              {remainingStudentsFiltered.map((student) => (
+                <option key={student.id} value={student.studentId}>
                   {student.name}
                 </option>
               ))}

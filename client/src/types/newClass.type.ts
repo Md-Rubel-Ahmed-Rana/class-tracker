@@ -4,6 +4,6 @@ export type INewClass = {
   date: string;
   batchNo: string;
   classNo: number;
-  presentStudents: { name: string }[];
-  absenceStudents: { name: string }[];
+  presentStudents: { studentId: string; id: string; name: string }[];
+  absenceStudents: { studentId: string; id: string; name: string }[];
 };
