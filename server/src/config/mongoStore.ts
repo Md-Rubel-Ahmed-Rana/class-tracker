@@ -22,6 +22,9 @@ class SessionDatabase {
         store: this.store,
         cookie: {
           expires: undefined,
+          secure: true,
+          httpOnly: true,
+          sameSite: "none",
         },
       })
     );
