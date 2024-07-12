@@ -41,6 +41,9 @@ class Service {
   async getAllStudent() {
     return await Student.find({});
   }
+  async getMyInfo(studentId: string) {
+    return await Student.findOne({ studentId: studentId });
+  }
 
   async getStudentByBatchNo(batchNo: string) {
     return await Student.find({ batchNo: batchNo });

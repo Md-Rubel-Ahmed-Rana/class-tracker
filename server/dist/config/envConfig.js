@@ -13,6 +13,7 @@ exports.config = {
     },
     database: {
         uri: process.env.DB_URI || "mongodb://localhost:27017/dev_database",
+        mongodKey: process.env.MONGOD_SESSION_PRIVATE_KEY || "this is mongod key",
     },
     jwt: {
         accessTokenSecret: process.env.JWT_ACCESS_TOKEN_SECRET || "defaultAccessTokenSecret",

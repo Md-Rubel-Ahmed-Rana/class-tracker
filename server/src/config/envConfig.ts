@@ -9,6 +9,7 @@ export const config = {
   },
   database: {
     uri: process.env.DB_URI || "mongodb://localhost:27017/dev_database",
+    mongodKey: process.env.MONGOD_SESSION_PRIVATE_KEY || "this is mongod key",
   },
   jwt: {
     accessTokenSecret:

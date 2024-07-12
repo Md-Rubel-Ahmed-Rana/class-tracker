@@ -58,6 +58,11 @@ class Service {
             return yield student_model_1.Student.find({});
         });
     }
+    getMyInfo(studentId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield student_model_1.Student.findOne({ studentId: studentId });
+        });
+    }
     getStudentByBatchNo(batchNo) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield student_model_1.Student.find({ batchNo: batchNo });

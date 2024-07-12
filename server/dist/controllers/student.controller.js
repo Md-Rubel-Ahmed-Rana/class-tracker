@@ -30,6 +30,25 @@ class Controller {
             }
         });
     }
+    getMyInfo(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const studentId = req.session.studentId;
+                const data = yield student_service_1.StudentService.getMyInfo(studentId);
+                res.status(200).json({
+                    success: true,
+                    message: "Student info fetched successfully!",
+                    data: data,
+                });
+            }
+            catch (error) {
+                console.error(`Error fetching student info: ${error}`);
+                res
+                    .status(500)
+                    .json({ success: false, message: "Student info fetching failed" });
+            }
+        });
+    }
     getAllStudent(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

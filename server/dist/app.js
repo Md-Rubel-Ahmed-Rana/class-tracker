@@ -12,12 +12,15 @@ const root_routes_1 = require("./routes/root.routes");
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const validationError_1 = __importDefault(require("./errors/validationError"));
+const mongoStore_1 = require("./config/mongoStore");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cors_1.default)());
 app.use((0, helmet_1.default)());
+// set session middleware
+mongoStore_1.Session.connectSessionDatabase(app);
 // Middleware to log requests using Morgan and direct logs to the worker
 app.use((0, morgan_1.default)("dev"));
 // application routes
