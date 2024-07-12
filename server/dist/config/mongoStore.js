@@ -20,12 +20,6 @@ class SessionDatabase {
             resave: false,
             saveUninitialized: false,
             store: this.store,
-            cookie: {
-                expires: undefined,
-                secure: true,
-                httpOnly: true,
-                sameSite: "none",
-            },
         }));
     }
 }

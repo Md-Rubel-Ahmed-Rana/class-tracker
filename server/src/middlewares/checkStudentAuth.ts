@@ -5,6 +5,8 @@ export const checkStudentAuth = (
   res: Response,
   next: NextFunction
 ) => {
+  console.log({ sessionObject: req.session });
+  console.log({ studentId: req.session?.studentId });
   if (req.session?.studentId) {
     return next();
   } else {
