@@ -15,12 +15,16 @@ const app: Application = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://adcti-class-tracker.vercel.app"],
+    credentials: true,
+  })
+);
+
 app.use(helmet());
 // set session middleware
 Session.connectSessionDatabase(app);
-
-// Middleware to log requests using Morgan and direct logs to the worker
 app.use(morgan("dev"));
 
 // application routes
