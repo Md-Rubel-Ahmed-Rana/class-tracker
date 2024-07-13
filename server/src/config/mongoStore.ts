@@ -20,6 +20,12 @@ class SessionDatabase {
         resave: false,
         saveUninitialized: false,
         store: this.store,
+        name: "adc-class-tracker",
+        cookie: {
+          secure: true,
+          httpOnly: true,
+          sameSite: "none",
+        },
       })
     );
   }
