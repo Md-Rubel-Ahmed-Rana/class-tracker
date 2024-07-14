@@ -4,7 +4,9 @@ export const baseApi = "https://api-class-tracker.up.railway.app/api/v1";
 
 export const getApi = async (apiEndpoint: string) => {
   try {
-    const data = await axios.get(`${baseApi}/${apiEndpoint}`);
+    const data = await axios.get(`${baseApi}/${apiEndpoint}`, {
+      withCredentials: true,
+    });
     return data?.data;
   } catch (error) {
     console.log("Error", error);
@@ -13,7 +15,31 @@ export const getApi = async (apiEndpoint: string) => {
 
 export const postApi = async (apiEndpoint: string, payload: any) => {
   try {
-    const data = await axios.post(`${baseApi}/${apiEndpoint}`, payload);
+    const data = await axios.post(`${baseApi}/${apiEndpoint}`, payload, {
+      withCredentials: true,
+    });
+    return data?.data;
+  } catch (error) {
+    console.log("Error", error);
+  }
+};
+
+export const patchApi = async (apiEndpoint: string, payload: any) => {
+  try {
+    const data = await axios.patch(`${baseApi}/${apiEndpoint}`, payload, {
+      withCredentials: true,
+    });
+    return data?.data;
+  } catch (error) {
+    console.log("Error", error);
+  }
+};
+
+export const deleteApi = async (apiEndpoint: string) => {
+  try {
+    const data = await axios.delete(`${baseApi}/${apiEndpoint}`, {
+      withCredentials: true,
+    });
     return data?.data;
   } catch (error) {
     console.log("Error", error);
