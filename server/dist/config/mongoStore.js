@@ -17,13 +17,13 @@ class SessionDatabase {
     connectSessionDatabase(app) {
         app.use((0, express_session_1.default)({
             secret: envConfig_1.config.database.mongodKey,
+            store: this.store,
             resave: false,
             saveUninitialized: false,
-            store: this.store,
             name: "adc-class-tracker",
             cookie: {
-                secure: true,
                 httpOnly: true,
+                secure: true,
                 sameSite: "none",
             },
         }));

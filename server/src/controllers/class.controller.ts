@@ -68,17 +68,36 @@ class Controller {
 
   async updateClass(req: Request, res: Response) {
     try {
-      const data = await ClassService.updateClass(req.params.id, req.body);
+      await ClassService.updateClass(req.params.id, req.body);
       res.status(200).json({
         success: true,
         message: "Class updated successfully!",
-        data: data,
+        data: null,
       });
     } catch (error) {
       console.error(`Error updating Class: ${error}`);
       res
         .status(500)
         .json({ success: false, message: "Class updating failed" });
+    }
+  }
+
+  async updateStudentAttendanceStatus(req: Request, res: Response) {
+    try {
+      const data = await ClassService.updateStudentAttendanceStatus(
+        req.params.id,
+        req.body
+      );
+      res.status(200).json({
+        success: true,
+        message: "Students statuses updated successfully!",
+        data: data,
+      });
+    } catch (error) {
+      console.error(`Error updating student status: ${error}`);
+      res
+        .status(500)
+        .json({ success: false, message: "Students status updating failed" });
     }
   }
 

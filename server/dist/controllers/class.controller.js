@@ -87,11 +87,11 @@ class Controller {
     updateClass(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const data = yield class_service_1.ClassService.updateClass(req.params.id, req.body);
+                yield class_service_1.ClassService.updateClass(req.params.id, req.body);
                 res.status(200).json({
                     success: true,
                     message: "Class updated successfully!",
-                    data: data,
+                    data: null,
                 });
             }
             catch (error) {
@@ -99,6 +99,24 @@ class Controller {
                 res
                     .status(500)
                     .json({ success: false, message: "Class updating failed" });
+            }
+        });
+    }
+    updateStudentAttendanceStatus(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const data = yield class_service_1.ClassService.updateStudentAttendanceStatus(req.params.id, req.body);
+                res.status(200).json({
+                    success: true,
+                    message: "Students statuses updated successfully!",
+                    data: data,
+                });
+            }
+            catch (error) {
+                console.error(`Error updating student status: ${error}`);
+                res
+                    .status(500)
+                    .json({ success: false, message: "Students status updating failed" });
             }
         });
     }

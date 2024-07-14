@@ -25,6 +25,16 @@ class Service {
   async updateClass(id: string, content: Partial<INewClass>) {
     return await Class.findByIdAndUpdate(id, { $set: { ...content } });
   }
+
+  async updateStudentAttendanceStatus(id: string, content: Partial<INewClass>) {
+    const { presentStudents, absenceStudents } = content;
+    await Class.findByIdAndUpdate(id, {
+      $set: {
+        presentStudents: presentStudents,
+        absenceStudents: absenceStudents,
+      },
+    });
+  }
 }
 
 export const ClassService = new Service();

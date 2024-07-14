@@ -9,5 +9,6 @@ router.get("/", class_controller_1.ClassController.getAllClass);
 router.get("/by-batch/:batchNo", class_controller_1.ClassController.getClassesByBatchNo);
 router.get("/single/:id", class_controller_1.ClassController.getSingleClass);
 router.patch("/update/:id", class_controller_1.ClassController.updateClass);
+router.patch("/students/update/attendance/:id", class_controller_1.ClassController.updateStudentAttendanceStatus);
 router.delete("/delete/:id", class_controller_1.ClassController.deleteClass);
 exports.ClassRoutes = router;

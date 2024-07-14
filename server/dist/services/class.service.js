@@ -42,5 +42,16 @@ class Service {
             return yield class_model_1.Class.findByIdAndUpdate(id, { $set: Object.assign({}, content) });
         });
     }
+    updateStudentAttendanceStatus(id, content) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { presentStudents, absenceStudents } = content;
+            yield class_model_1.Class.findByIdAndUpdate(id, {
+                $set: {
+                    presentStudents: presentStudents,
+                    absenceStudents: absenceStudents,
+                },
+            });
+        });
+    }
 }
 exports.ClassService = new Service();

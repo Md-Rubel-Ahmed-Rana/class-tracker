@@ -14,6 +14,7 @@ const auth_service_1 = require("../services/auth.service");
 class Controller {
     studentLogin(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            var _a;
             try {
                 const { studentId } = req.body;
                 const result = yield auth_service_1.AuthService.studentLogin(studentId);
@@ -21,6 +22,7 @@ class Controller {
                     return res.status(401).json({ message: "Invalid studentId" });
                 }
                 req.session.studentId = studentId;
+                console.log({ studentId: (_a = req.session) === null || _a === void 0 ? void 0 : _a.studentId });
                 res.status(200).json({ success: true, message: "Login successful" });
             }
             catch (error) {
