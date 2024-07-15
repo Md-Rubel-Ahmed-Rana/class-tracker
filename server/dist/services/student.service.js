@@ -75,7 +75,38 @@ class Service {
     }
     deleteStudent(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield student_model_1.Student.findByIdAndDelete(id);
+            const session = yield mongoose_1.default.startSession();
+            session.startTransaction();
+            try {
+                // Check if the student exists
+                const student = yield student_model_1.Student.findById(id).session(session);
+                if (!student) {
+                    throw new Error("Student not found");
+                }
+                // Find the batch that contains the student
+                const batch = yield batch_model_1.Batch.findOne({
+                    "students.studentId": student.studentId,
+                }).session(session);
+                if (!batch) {
+                    throw new Error("Batch not found");
+                }
+                // Delete the student
+                yield student_model_1.Student.findByIdAndDelete(id).session(session);
+                // Remove the student from the batch's students array
+                batch.students.pull({ studentId: student.studentId });
+                yield batch.save({ session });
+                // Commit the transaction
+                yield session.commitTransaction();
+                session.endSession();
+                return true;
+            }
+            catch (error) {
+                // Abort the transaction
+                yield session.abortTransaction();
+                session.endSession();
+                console.error(error);
+                return false;
+            }
         });
     }
     updateStudent(id, content) {

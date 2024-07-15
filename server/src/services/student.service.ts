@@ -41,6 +41,7 @@ class Service {
   async getAllStudent() {
     return await Student.find({});
   }
+
   async getMyInfo(studentId: string) {
     return await Student.findOne({ studentId: studentId });
   }
@@ -54,7 +55,42 @@ class Service {
   }
 
   async deleteStudent(id: string) {
-    return await Student.findByIdAndDelete(id);
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+      // Check if the student exists
+      const student = await Student.findById(id).session(session);
+      if (!student) {
+        throw new Error("Student not found");
+      }
+
+      // Find the batch that contains the student
+      const batch: any = await Batch.findOne({
+        "students.studentId": student.studentId,
+      }).session(session);
+      if (!batch) {
+        throw new Error("Batch not found");
+      }
+
+      // Delete the student
+      await Student.findByIdAndDelete(id).session(session);
+
+      // Remove the student from the batch's students array
+      batch.students.pull({ studentId: student.studentId });
+      await batch.save({ session });
+
+      // Commit the transaction
+      await session.commitTransaction();
+      session.endSession();
+
+      return true;
+    } catch (error) {
+      // Abort the transaction
+      await session.abortTransaction();
+      session.endSession();
+      console.error(error);
+      return false;
+    }
   }
 
   async updateStudent(id: string, content: Partial<INewStudent>) {
