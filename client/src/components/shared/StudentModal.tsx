@@ -1,4 +1,5 @@
 import { IStudent } from "@/types/student.type";
+import DeleteStudentButton from "../reusables/DeleteStudentButton";
 
 type Props = {
   show: boolean;
@@ -12,7 +13,7 @@ const StudentModal = ({ show, onClose, batchName, students }: Props) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white rounded-lg p-6 w-[96%] lg:w-3/4 max-w-lg">
+      <div className="bg-white rounded-lg p-2 lg:p-6 w-[96%] lg:w-3/4 max-w-lg">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">Students in {batchName}</h2>
           <button
@@ -30,7 +31,13 @@ const StudentModal = ({ show, onClose, batchName, students }: Props) => {
                   key={student.id}
                   className="mb-2 shadow-md p-2 border-2 rounded-md"
                 >
-                  <p>Name: {student.name}</p>
+                  <div className="flex justify-between items-center">
+                    <p className="text-lg font-semibold">
+                      Name: {student.name}
+                    </p>
+                    <DeleteStudentButton studentObjectId={student.id} />
+                  </div>
+
                   <p>Student ID: {student.studentId}</p>
                   <p>ID: {student.id}</p>
                 </li>

@@ -15,7 +15,7 @@ const BatchesPage = () => {
   };
 
   return (
-    <div className="px-10 mx-auto p-4">
+    <div className="px-3 lg:px-10 mx-auto p-4">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold ">Batches</h1>
         <Link
@@ -25,30 +25,33 @@ const BatchesPage = () => {
           Add New Batch
         </Link>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-5">
         {batches?.map((batch: IBatch) => (
-          <div key={batch.id} className="p-4 border rounded-lg shadow-md">
+          <div
+            key={batch.id}
+            className="p-2 lg:p-4 border rounded-lg shadow-md"
+          >
             <h2 className="text-xl font-semibold">{batch.name}</h2>
             <p>Batch No: {batch.batchNo}</p>
             <p>
               Starting Date: {new Date(batch.startingDate).toLocaleDateString()}
             </p>
             <p>Students: {batch.students.length} </p>
-            <div className="flex justify-between mt-3 items-center gap-3">
+            <div className="flex justify-between mt-3 items-center gap-1 lg:gap-3">
               <button
                 onClick={() => handleSeeStudents(batch)}
-                className="bg-gray-200 py-1 px-5 w-full rounded-md font-semibold"
+                className="bg-gray-200 py-1 px-2 lg:px-5 w-full rounded-md font-semibold"
               >
                 Students
               </button>
               <Link
-                className="bg-gray-200 text-center py-1 px-5 w-full rounded-md font-semibold"
+                className="bg-gray-200 text-center py-1 px-2 lg:px-5 w-full rounded-md font-semibold"
                 href={`/batches/classes/${batch.id}`}
               >
                 <button>Classes</button>
               </Link>
               <Link
-                className="bg-gray-200 text-center py-1 px-5 w-full rounded-md font-semibold"
+                className="bg-gray-200 text-center py-1 px-2 lg:px-5 w-full rounded-md font-semibold"
                 href={`/batches/details/${batch.id}?name=${batch.name}&batchNo=${batch.batchNo}`}
               >
                 <button>Details</button>

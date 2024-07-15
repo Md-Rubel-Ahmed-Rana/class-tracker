@@ -55,26 +55,28 @@ const ClassesForABatchPage = ({ setBatchNo }: { setBatchNo: any }) => {
   }, [router?.query?.id, refetchApi]);
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 pb-40">
       <div className="flex justify-between flex-col lg:flex-row font-semibold gap-4">
         <h1 className="text-lg lg:text-2xl">Web Design & Development Course</h1>
         <div className="flex gap-2">
           <Link
-            className="bg-blue-600 px-4 py-2 rounded-md text-white"
+            className="bg-blue-600 px-2 lg:px-4 py-2 rounded-md text-white"
             href={"/add-new-student"}
           >
             Add New Student
           </Link>
           <Link
-            className="bg-blue-600 px-4 py-2 rounded-md text-white"
+            className="bg-blue-600 px-2 lg:px-4 py-2 rounded-md text-white"
             href={"/add-new-class"}
           >
             Add New Class
           </Link>
         </div>
       </div>
-      <div className="flex justify-between items-center mt-2">
-        <h1 className="text-2xl mb-4">Classes for Batch {batch.batchNo}</h1>
+      <div className="flex flex-col lg:flex-row justify-between lg:items-center mt-2">
+        <h1 className="text-lg lg:text-2xl mb-4">
+          Classes for Batch {batch.batchNo}
+        </h1>
         {/* update batch and classes by batchNo component */}
         <ChangeBatch batch={batch} fetchClassByBatch={fetchClassByBatch} />
       </div>
@@ -105,7 +107,7 @@ const ClassesForABatchPage = ({ setBatchNo }: { setBatchNo: any }) => {
             ))
           ) : (
             <div className="flex justify-center items-center">
-              <h4 className="text-3xl font-semibold text-center">
+              <h4 className="text-lg lg:text-3xl font-semibold text-center">
                 No classes found for this batch
               </h4>
             </div>

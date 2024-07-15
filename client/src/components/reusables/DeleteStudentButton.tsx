@@ -3,17 +3,18 @@ import { AppContext } from "@/context/AppProvider";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import Swal from "sweetalert2";
+import { FaTrashAlt } from "react-icons/fa";
 
 type Props = {
-  batchId: string;
+  studentObjectId: string;
 };
 
-const DeleteBatchButton = ({ batchId }: Props) => {
+const DeleteStudentButton = ({ studentObjectId }: Props) => {
   const router = useRouter();
   const { setRefetchBatch } = useContext(AppContext);
   const handleDeleteBatch = async () => {
     try {
-      const result: any = await deleteApi(`batch/delete/${batchId}`);
+      const result: any = await deleteApi(`student/delete/${studentObjectId}`);
       if (result?.success === true) {
         Swal.fire({
           position: "center",
@@ -23,13 +24,13 @@ const DeleteBatchButton = ({ batchId }: Props) => {
           timer: 2000,
         });
         setRefetchBatch((prev: any) => !prev);
-        router.push("/batches");
+        router.reload();
       } else {
         Swal.fire({
           position: "center",
           icon: "error",
           title: "Deletion failed",
-          text: result?.message || "Batch was not deleted",
+          text: result?.message || "Student was not deleted",
         });
       }
     } catch (error: any) {
@@ -37,18 +38,15 @@ const DeleteBatchButton = ({ batchId }: Props) => {
         position: "center",
         icon: "error",
         title: "Something went wrong",
-        text: error?.message || "Batch was not deleted",
+        text: error?.message || "Student was not deleted",
       });
     }
   };
   return (
-    <button
-      onClick={handleDeleteBatch}
-      className="bg-red-600 px-4 py-2 rounded-md text-white"
-    >
-      Delete batch
+    <button title="Delete the student" onClick={handleDeleteBatch}>
+      <FaTrashAlt className="text-xl text-red-500" />
     </button>
   );
 };
 
-export default DeleteBatchButton;
+export default DeleteStudentButton;
