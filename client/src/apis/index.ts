@@ -45,21 +45,3 @@ export const deleteApi = async (apiEndpoint: string) => {
     console.log("Error", error);
   }
 };
-
-export const patchApi = async (apiEndpoint: string, payload: any) => {
-  try {
-    const data = await axios.patch(`${baseApi}/${apiEndpoint}`, payload);
-    return data?.data;
-  } catch (error) {
-    console.log("Error", error);
-  }
-};
-
-export const deleteApi = async (apiEndpoint: string) => {
-  try {
-    const data = await axios.delete(`${baseApi}/${apiEndpoint}`);
-    return data?.data;
-  } catch (error) {
-    console.log("Error", error);
-  }
-};

@@ -131,8 +131,8 @@ const AddNewClassPage = () => {
   );
 
   return (
-    <div className="p-20 flex items-center justify-center">
-      <div className="bg-gray-50 p-8 rounded shadow-md w-full max-w-2xl">
+    <div className="p-2 lg:p-10 flex items-center justify-center pb-20">
+      <div className="bg-gray-50 p-2 lg:p-8 rounded shadow-md w-full max-w-2xl">
         <h2 className="text-2xl font-bold mb-6 text-center">Add New Class</h2>
         <form onSubmit={handleSubmit(handleAddNewClass)}>
           <div className="mb-4">

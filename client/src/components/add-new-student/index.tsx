@@ -42,8 +42,8 @@ const AddNewStudentPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="bg-gray-50 p-8 rounded shadow-md w-full max-w-md">
+    <div className="lg:min-h-screen flex items-center justify-center">
+      <div className="bg-gray-50 p-3 lg:p-8 m-2 rounded shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Add New Student</h2>
         <form onSubmit={handleSubmit(handleAddNewStudent)}>
           <div className="mb-4">

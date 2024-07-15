@@ -24,7 +24,6 @@ const ShowStudentListForAClassModal = ({
   const [searchedStudents, setSearchedStudents] = useState<FilterStudentType[]>(
     []
   );
-  const router = useRouter();
 
   const handleChangeStudentStatus = (student: FilterStudentType) => {
     if (searchedStudents.length > 0) {

@@ -2,6 +2,7 @@ import { IClass } from "@/types/class.type";
 import { FilterStudentType } from ".";
 import ShowStudentListForAClassModal from "@/components/shared/ShowStudentListForAClassModal";
 import { IStudent } from "@/types/student.type";
+import ClassActions from "@/components/reusables/ClassActions";
 
 type Props = {
   classItem: IClass;
@@ -24,46 +25,23 @@ const ClassCard = ({
   setRefetchApi,
   studentList,
 }: Props) => {
-  const handleSeeStudentList = (classId: string) => {
-    const currentClass = classes?.find((cls) => cls._id === classId);
-    const absenceStudents = currentClass?.absenceStudents?.map((student) => ({
-      id: student.id,
-      name: student.name,
-      studentId: student.studentId,
-      status: "absence",
-    }));
-    const presentStudents = currentClass?.presentStudents?.map((student) => ({
-      id: student.id,
-      name: student.name,
-      studentId: student.studentId,
-      status: "present",
-    }));
-    if (absenceStudents && absenceStudents?.length > 0) {
-      setStudentList(absenceStudents.concat(presentStudents || []));
-    }
-    if (seeStudentList === classId) {
-      setSeeStudentList(null);
-      setSearchTerm("");
-    } else {
-      setSeeStudentList(classId);
-      setSearchTerm("");
-    }
-  };
   return (
     <div key={classItem.id} className="p-4 border rounded-lg shadow-md">
-      <div className="flex justify-between flex-col lg:flex-row gap-3 items-start lg:items-center">
+      <div className="flex justify-between flex-col-reverse lg:flex-row gap-3 items-start lg:items-center">
         <h2 className="text-xl font-semibold mb-2">
           Class {classItem.classNo}: {classItem.title}
         </h2>
-        <div className="relative mb-4">
-          <div className="text-end">
-            <button
-              onClick={() => handleSeeStudentList(classItem.id)}
-              className="bg-blue-600 px-4 py-2 rounded-md text-white"
-            >
-              See student list
-            </button>
-          </div>
+        <div className="relative lg:mb-4">
+          <ClassActions
+            classItem={classItem}
+            classes={classes}
+            seeStudentList={seeStudentList}
+            setRefetchApi={setRefetchApi}
+            setSearchTerm={setSearchTerm}
+            setSeeStudentList={setSeeStudentList}
+            setStudentList={setStudentList}
+            studentList={studentList}
+          />
           {seeStudentList === classItem.id && (
             <ShowStudentListForAClassModal
               studentList={studentList}
