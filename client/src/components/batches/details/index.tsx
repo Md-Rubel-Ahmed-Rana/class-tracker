@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getApi } from "@/apis";
 import Link from "next/link";
+import DeleteBatchButton from "@/components/shared/DeleteBatchButton";
 
 const BatchDetailsPage = () => {
   const router = useRouter();
@@ -47,6 +48,7 @@ const BatchDetailsPage = () => {
           >
             Add New Class
           </Link>
+          <DeleteBatchButton batchId={id as string} />
         </div>
       </div>
       <div>

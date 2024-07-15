@@ -11,6 +11,7 @@ type Props = {
   setStudentList: (values: FilterStudentType[]) => void;
   setSeeStudentList: (value: string | null) => void;
   setSearchTerm: (value: string) => void;
+  setRefetchApi: (value: any) => void;
 };
 
 const ClassCard = ({
@@ -20,16 +21,19 @@ const ClassCard = ({
   setSeeStudentList,
   setStudentList,
   setSearchTerm,
+  setRefetchApi,
   studentList,
 }: Props) => {
   const handleSeeStudentList = (classId: string) => {
     const currentClass = classes?.find((cls) => cls._id === classId);
     const absenceStudents = currentClass?.absenceStudents?.map((student) => ({
+      id: student.id,
       name: student.name,
       studentId: student.studentId,
       status: "absence",
     }));
     const presentStudents = currentClass?.presentStudents?.map((student) => ({
+      id: student.id,
       name: student.name,
       studentId: student.studentId,
       status: "present",
@@ -64,6 +68,7 @@ const ClassCard = ({
             <ShowStudentListForAClassModal
               studentList={studentList}
               setStudentList={setStudentList}
+              setRefetchApi={setRefetchApi}
               setSeeStudentList={setSeeStudentList}
               classId={classItem.id}
             />

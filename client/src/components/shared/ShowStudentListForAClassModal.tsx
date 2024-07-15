@@ -2,24 +2,29 @@ import { FaRegCheckCircle, FaRegCircle } from "react-icons/fa";
 import { FilterStudentType } from "../batches/classes";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { patchApi } from "@/apis";
+import { useRouter } from "next/router";
 
 type Props = {
   studentList: FilterStudentType[];
   classId: string;
   setStudentList: (value: FilterStudentType[]) => void;
   setSeeStudentList: (value: null | string) => void;
+  setRefetchApi: (value: any) => void;
 };
 
 const ShowStudentListForAClassModal = ({
   studentList,
   setStudentList,
   setSeeStudentList,
+  setRefetchApi,
   classId,
 }: Props) => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [searchedStudents, setSearchedStudents] = useState<FilterStudentType[]>(
     []
   );
+  const router = useRouter();
 
   const handleChangeStudentStatus = (student: FilterStudentType) => {
     if (searchedStudents.length > 0) {
@@ -50,18 +55,59 @@ const ShowStudentListForAClassModal = ({
     }
   };
 
-  const handleUpdateStudentStatus = () => {
-    console.log(
-      "Make a server action o update student status for class",
-      classId
+  const handleUpdateStudentStatus = async () => {
+    const presentStudents = studentList.filter(
+      (std) => std.status === "present"
     );
-    console.table(studentList);
-    Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "Student attendance updated",
-      timer: 2000,
-    });
+    const absenceStudents = studentList.filter(
+      (std) => std.status === "absence"
+    );
+
+    const payload = {
+      presentStudents: presentStudents.map((std) => ({
+        id: std.id,
+        name: std.name,
+        studentId: std.studentId,
+      })),
+      absenceStudents: absenceStudents.map((std) => ({
+        id: std.id,
+        name: std.name,
+        studentId: std.studentId,
+      })),
+    };
+
+    try {
+      const result = await patchApi(
+        `class/students/update/attendance/${classId}`,
+        payload
+      );
+      if (result?.success === true) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Student attendance updated",
+          timer: 2000,
+        });
+        setRefetchApi((prev: any) => !prev);
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Failed to update attendance",
+          text: "Something went wrong to update students attendance. Please try later.",
+          timer: 2000,
+        });
+      }
+    } catch (error: any) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "OOps",
+        text: error.message,
+        timer: 2000,
+      });
+    }
+
     setSeeStudentList(null);
   };
 
