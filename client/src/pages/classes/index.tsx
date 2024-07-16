@@ -1,3 +1,4 @@
+import ClassesPage from "@/components/classes";
 import GetHead from "@/components/shared/HeadTag";
 import DashboardLayout from "@/layouts/dashboardLayout";
 import { ReactElement } from "react";
@@ -10,10 +11,7 @@ const Classes = () => {
         description="This class tracker Classes page"
         keywords="ADC, Class Tracker"
       />
-
-      <h3 className="text-center text-3xl font-semibold py-5">
-        Show all Classes here
-      </h3>
+      <ClassesPage />
     </section>
   );
 };

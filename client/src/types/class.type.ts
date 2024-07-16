@@ -6,6 +6,7 @@ export type IClass = {
   description: string;
   classNo: number;
   batchNo: string;
+  date: string;
   absenceStudents: IStudent[];
   presentStudents: IStudent[];
   createdAt: string;

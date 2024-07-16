@@ -1,12 +1,15 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import DeleteClassButton from "./DeleteClassButton";
 import { IClass } from "@/types/class.type";
 import { FilterStudentType } from "../batches/classes";
+import { IStudent } from "@/types/student.type";
+import AddNewStudentToAClass from "../batches/classes/AddNewStudentToAClass";
 
 type Props = {
   classItem: IClass;
   classes: IClass[];
+  students: IStudent[];
   seeStudentList: string | null;
   studentList: FilterStudentType[];
   setStudentList: (values: FilterStudentType[]) => void;
@@ -19,10 +22,14 @@ const ClassActions = ({
   classItem,
   classes,
   seeStudentList,
+  students,
   setSeeStudentList,
   setStudentList,
   setSearchTerm,
+  setRefetchApi,
 }: Props) => {
+  const [isShowStudents, setIsShowStudents] = useState(false);
+
   const handleSeeStudentList = (classId: string) => {
     if (seeStudentList === classId) {
       setSeeStudentList(null);
@@ -53,8 +60,15 @@ const ClassActions = ({
       setStudentList([]);
     }
   };
+
   return (
     <div className="flex flex-wrap gap-2">
+      <button
+        onClick={() => setIsShowStudents(true)}
+        className="bg-blue-600 px-4 py-2 rounded-md text-white"
+      >
+        Add student
+      </button>
       <button
         onClick={() => handleSeeStudentList(classItem.id)}
         className="bg-blue-600 px-4 py-2 rounded-md text-white"
@@ -68,6 +82,15 @@ const ClassActions = ({
         Edit
       </Link>
       <DeleteClassButton classId={classItem.id} />
+      {isShowStudents && (
+        <AddNewStudentToAClass
+          setRefetchApi={setRefetchApi}
+          classItem={classItem}
+          classes={classes}
+          onClose={() => setIsShowStudents(false)}
+          students={students}
+        />
+      )}
     </div>
   );
 };

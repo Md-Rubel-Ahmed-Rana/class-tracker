@@ -94,6 +94,7 @@ const ClassesForABatchPage = ({ setBatchNo }: { setBatchNo: any }) => {
           {classes && classes.length > 0 ? (
             classes.map((classItem: IClass) => (
               <ClassCard
+                students={batch?.students || []}
                 key={classItem.id}
                 classItem={classItem}
                 classes={classes}

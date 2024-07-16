@@ -27,7 +27,7 @@ const ChangeBatch = ({ fetchClassByBatch, batch }: Props) => {
       <h5 className="text-2xl">Filter: </h5>
       <select
         onChange={(e) => handleChangeBatch(e.target.value)}
-        className="border-2 focus:outline-blue-400 bg-gray-300 px-3 rounded-md py-1"
+        className="border-2 focus:outline-blue-400 cursor-pointer bg-gray-300 px-3 rounded-md py-1"
         name="batch"
         id="batch"
         defaultValue={`${batch.id},${batch.batchNo}`}

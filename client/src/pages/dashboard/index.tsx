@@ -11,7 +11,7 @@ const Dashboard = () => {
         keywords="ADC, Class Tracker"
       />
 
-      <h3 className="text-3xl font-bold">
+      <h3 className="text-lg lg:text-3xl text-center font-bold">
         Show chart, calculation for attendance etc.
       </h3>
     </section>

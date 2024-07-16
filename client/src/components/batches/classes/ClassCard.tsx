@@ -7,6 +7,7 @@ import ClassActions from "@/components/reusables/ClassActions";
 type Props = {
   classItem: IClass;
   classes: IClass[];
+  students: IStudent[];
   seeStudentList: string | null;
   studentList: FilterStudentType[];
   setStudentList: (values: FilterStudentType[]) => void;
@@ -18,6 +19,7 @@ type Props = {
 const ClassCard = ({
   classItem,
   classes,
+  students,
   seeStudentList,
   setSeeStudentList,
   setStudentList,
@@ -35,6 +37,7 @@ const ClassCard = ({
           <ClassActions
             classItem={classItem}
             classes={classes}
+            students={students}
             seeStudentList={seeStudentList}
             setRefetchApi={setRefetchApi}
             setSearchTerm={setSearchTerm}
