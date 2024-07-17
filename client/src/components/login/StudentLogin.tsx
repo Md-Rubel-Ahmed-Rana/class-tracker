@@ -80,7 +80,7 @@ const StudentLogin = () => {
       <button
         disabled={loading}
         type="submit"
-        className={`w-full px-4 py-2 font-medium rounded-md  text-white ${
+        className={`w-full px-4 py-2  text-sm lg:text-lg font-medium rounded-md  text-white ${
           loading
             ? "bg-gray-600 cursor-not-allowed"
             : " bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700"
