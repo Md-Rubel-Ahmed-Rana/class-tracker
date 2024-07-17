@@ -15,11 +15,16 @@ type Props = {
 
 const AppProvider = ({ children }: Props) => {
   const [batches, setBatches] = useState([]);
+  const [user, setUser] = useState<any>(null);
+  const [userLoading, setUserLoading] = useState(false);
   const [refetchBatch, setRefetchBatch] = useState(false);
 
   useEffect(() => {
     fetchBatches();
   }, [refetchBatch]);
+  useEffect(() => {
+    fetchLoggedInUser();
+  }, []);
 
   const fetchBatches = async () => {
     try {
@@ -30,7 +35,23 @@ const AppProvider = ({ children }: Props) => {
     }
   };
 
+  const fetchLoggedInUser = async () => {
+    setUserLoading(true);
+    try {
+      const data = await getApi("auth");
+      setUser(data?.data);
+      setUserLoading(false);
+    } catch (error) {
+      setUserLoading(false);
+      console.log("Error to fetch logged in user", error);
+    } finally {
+      setUserLoading(false);
+    }
+  };
+
   const values = {
+    user,
+    userLoading,
     batches,
     setBatches,
     refetchBatch,
