@@ -34,6 +34,11 @@ class Service {
             return yield batch_model_1.Batch.findById(id);
         });
     }
+    getSingleBatchByBatchNo(batchNo) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield batch_model_1.Batch.findOne({ batchNo: batchNo });
+        });
+    }
     getBatchDetails(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const batch = yield batch_model_1.Batch.findById(id);

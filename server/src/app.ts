@@ -6,26 +6,22 @@ import dotenv from "dotenv";
 import { RootRoutes } from "./routes/root.routes";
 import fs from "fs";
 import path from "path";
+import cookieParser from "cookie-parser";
 import handleZodValidationError from "./errors/validationError";
-import { Session } from "./config/mongoStore";
-
 dotenv.config();
 
 const app: Application = express();
-
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+app.use(helmet());
+app.use(morgan("dev"));
 app.use(
   cors({
     origin: ["http://localhost:3000", "https://adcti-class-tracker.vercel.app"],
     credentials: true,
   })
 );
-
-app.use(helmet());
-// set session middleware
-Session.connectSessionDatabase(app);
-app.use(morgan("dev"));
 
 // application routes
 app.use("/api/v1", RootRoutes);

@@ -5,7 +5,8 @@ declare global {
   namespace Express {
     interface Request {
       user: JwtPayload | null | GetUser;
-      session: { studentId: string };
+      id: string;
+      role: string;
     }
   }
 }

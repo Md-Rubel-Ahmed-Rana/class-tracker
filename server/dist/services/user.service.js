@@ -8,45 +8,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
-const envConfig_1 = require("../config/envConfig");
 const user_interface_1 = require("../interfaces/user.interface");
 const user_model_1 = require("../models/user.model");
-const bcrypt_1 = __importDefault(require("bcrypt"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 class Service {
-    register(user) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const hashedPass = yield bcrypt_1.default.hash(user.password, 12);
-            user.password = hashedPass;
-            yield user_model_1.User.create(user);
-        });
-    }
-    login(credentials) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const user = yield user_model_1.User.findOne({ email: credentials.email });
-            if (!user) {
-                return false;
-            }
-            const isMatched = yield bcrypt_1.default.compare(credentials.password, user.password);
-            if (!isMatched) {
-                return false;
-            }
-            const payload = {
-                userId: user._id,
-                email: user.email,
-                role: user.role,
-            };
-            const accessToken = jsonwebtoken_1.default.sign(payload, envConfig_1.config.jwt.accessTokenSecret, {
-                expiresIn: envConfig_1.config.jwt.accessTokenExpire,
-            });
-            return { accessToken };
-        });
-    }
     findUsers() {
         return __awaiter(this, arguments, void 0, function* (searchText = "", filters = {}, page = 1, limit = 10, sortDirection = "asc") {
             let pipeline = [{ $project: user_interface_1.UserProjection }];

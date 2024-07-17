@@ -22,6 +22,10 @@ class Service {
     return await Batch.findById(id);
   }
 
+  async getSingleBatchByBatchNo(batchNo: string) {
+    return await Batch.findOne({ batchNo: batchNo });
+  }
+
   async getBatchDetails(id: string) {
     const batch: any = await Batch.findById(id);
     const batchData = {

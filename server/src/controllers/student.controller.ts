@@ -20,8 +20,7 @@ class Controller {
 
   async getMyInfo(req: Request, res: Response) {
     try {
-      const studentId = req.session.studentId as string;
-      const data = await StudentService.getMyInfo(studentId);
+      const data = await StudentService.getMyInfo(req.id);
       res.status(200).json({
         success: true,
         message: "Student info fetched successfully!",

@@ -2,54 +2,6 @@ import { Request, Response } from "express";
 import { UserService } from "../services/user.service";
 
 class Controller {
-  async register(req: Request, res: Response) {
-    try {
-      await UserService.register(req.body);
-      res
-        .status(201)
-        .json({ success: true, message: "Registered successfully!" });
-    } catch (error) {
-      console.error(`Error registering user: ${error}`);
-      res.status(500).json({ success: false, message: "Registration failed" });
-    }
-  }
-
-  async login(req: Request, res: Response) {
-    try {
-      const result: any = await UserService.login(req.body);
-      if (result?.accessToken) {
-        res.status(200).json({
-          success: true,
-          message: "Login successfully!",
-          accessToken: result.accessToken,
-        });
-      } else {
-        res.status(401).json({
-          success: false,
-          message: "Login failed. Invalid credentials",
-        });
-      }
-    } catch (error) {
-      console.error(`Error logging in user: ${error}`);
-      res.status(500).json({ success: false, message: "Login failed" });
-    }
-  }
-
-  async auth(req: Request, res: Response) {
-    try {
-      res.status(200).json({
-        success: true,
-        message: "User found successfully!",
-        data: req.user,
-      });
-    } catch (error) {
-      console.error(`Error retrieving user data: ${error}`);
-      res
-        .status(500)
-        .json({ success: false, message: "Failed to retrieve user data" });
-    }
-  }
-
   async findSingleUserById(req: Request, res: Response) {
     try {
       const user = await UserService.findSingleUserById(req.params.id);
