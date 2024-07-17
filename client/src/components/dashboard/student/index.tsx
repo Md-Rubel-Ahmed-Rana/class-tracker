@@ -47,7 +47,7 @@ const StudentInfoPage = ({ setStudentInfo }: any) => {
               batchNo={batchNum}
               endingDate={endingDate}
               startingDate={startingDate}
-              totalStudents={students.length}
+              totalStudents={students?.length}
             />
           </div>
           <MyBatchMates students={students} />
