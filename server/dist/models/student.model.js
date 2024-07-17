@@ -9,6 +9,9 @@ const studentSchema = new mongoose_1.Schema({
     studentId: {
         type: String,
     },
+    password: {
+        type: String,
+    },
     batchNo: {
         type: String,
         required: true,

@@ -76,10 +76,24 @@ class Controller {
     studentLogin(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { studentId } = req.body;
-                const result = yield auth_service_1.AuthService.studentLogin(studentId);
-                if (!result) {
-                    return res.status(401).json({ message: "Invalid studentId" });
+                const { studentId, password } = req.body;
+                const result = yield auth_service_1.AuthService.studentLogin(studentId, password);
+                if (result === 404) {
+                    return res
+                        .status(401)
+                        .json({ success: false, message: "Invalid studentId" });
+                }
+                else if (result === 400) {
+                    return res.status(400).json({
+                        success: false,
+                        message: "You didn't change password. Please change your password first",
+                    });
+                }
+                else if (result === 401) {
+                    return res.status(401).json({
+                        success: false,
+                        message: "Incorrect password",
+                    });
                 }
                 else {
                     res.cookie("adc-class-tracker", result, {

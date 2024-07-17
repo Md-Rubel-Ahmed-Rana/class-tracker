@@ -10,6 +10,9 @@ const studentSchema = new Schema<INewStudent>(
     studentId: {
       type: String,
     },
+    password: {
+      type: String,
+    },
     batchNo: {
       type: String,
       required: true,

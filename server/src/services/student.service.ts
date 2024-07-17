@@ -5,6 +5,7 @@ import { Student } from "../models/student.model";
 import { generateIncrementalNumber } from "../utils/generateIncrementalNumber";
 import { BatchService } from "./batch.service";
 import { ClassService } from "./class.service";
+import bcrypt from "bcrypt";
 
 class Service {
   async createStudent(data: INewStudent) {
@@ -14,6 +15,7 @@ class Service {
     );
     const incrementalId = `${data.batchNo}-${nextStudentNumber}`;
     data.studentId = incrementalId;
+    data.password = incrementalId;
     const isBatchExist = await Batch.findOne({ batchNo: data.batchNo });
     if (!isBatchExist) {
       return false;
@@ -104,6 +106,16 @@ class Service {
 
   async updateStudent(id: string, content: Partial<INewStudent>) {
     return await Student.findByIdAndUpdate(id, { $set: { ...content } });
+  }
+
+  async updateStudentPassword(studentId: string, password: string) {
+    const hashedPass = await bcrypt.hash(password, 12);
+    return await Student.findOneAndUpdate(
+      { studentId: studentId },
+      {
+        $set: { password: hashedPass },
+      }
+    );
   }
 }
 

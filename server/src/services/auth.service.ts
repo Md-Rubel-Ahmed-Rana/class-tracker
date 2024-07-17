@@ -13,10 +13,14 @@ class Service {
     await User.create(user);
   }
 
-  async studentLogin(studentId: string) {
+  async studentLogin(studentId: string, password: string) {
     const student = await Student.findOne({ studentId: studentId });
     if (!student) {
-      return false;
+      return 404;
+    } else if (student.studentId === password) {
+      return 400;
+    } else if (!bcrypt.compare(password, student.password)) {
+      return 401;
     } else {
       const token = generateToken({ id: student.id, role: "student" });
       return token;

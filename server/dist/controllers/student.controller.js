@@ -120,6 +120,24 @@ class Controller {
             }
         });
     }
+    updateStudentPassword(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const data = yield student_service_1.StudentService.updateStudentPassword(req.body.studentId, req.body.password);
+                res.status(200).json({
+                    success: true,
+                    message: "Your password has been changed successfully!",
+                    data: data,
+                });
+            }
+            catch (error) {
+                console.error(`Error updating Student: ${error}`);
+                res
+                    .status(500)
+                    .json({ success: false, message: "Student updating failed" });
+            }
+        });
+    }
     deleteStudent(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

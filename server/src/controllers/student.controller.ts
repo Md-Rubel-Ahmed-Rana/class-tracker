@@ -96,6 +96,24 @@ class Controller {
         .json({ success: false, message: "Student updating failed" });
     }
   }
+  async updateStudentPassword(req: Request, res: Response) {
+    try {
+      const data = await StudentService.updateStudentPassword(
+        req.body.studentId,
+        req.body.password
+      );
+      res.status(200).json({
+        success: true,
+        message: "Your password has been changed successfully!",
+        data: data,
+      });
+    } catch (error) {
+      console.error(`Error updating Student: ${error}`);
+      res
+        .status(500)
+        .json({ success: false, message: "Student updating failed" });
+    }
+  }
 
   async deleteStudent(req: Request, res: Response) {
     try {

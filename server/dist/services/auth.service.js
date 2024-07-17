@@ -27,11 +27,17 @@ class Service {
             yield user_model_1.User.create(user);
         });
     }
-    studentLogin(studentId) {
+    studentLogin(studentId, password) {
         return __awaiter(this, void 0, void 0, function* () {
             const student = yield student_model_1.Student.findOne({ studentId: studentId });
             if (!student) {
-                return false;
+                return 404;
+            }
+            else if (student.studentId === password) {
+                return 400;
+            }
+            else if (!bcrypt_1.default.compare(password, student.password)) {
+                return 401;
             }
             else {
                 const token = (0, generateToken_1.generateToken)({ id: student.id, role: "student" });

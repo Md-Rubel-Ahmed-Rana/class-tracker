@@ -13,6 +13,8 @@ router.get("/single/:id", StudentController.getSingleStudent);
 
 router.patch("/update/:id", StudentController.updateStudent);
 
+router.patch("/change-password", StudentController.updateStudentPassword);
+
 router.delete("/delete/:id", StudentController.deleteStudent);
 
 export const StudentRoutes = router;

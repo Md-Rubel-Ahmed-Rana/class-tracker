@@ -19,6 +19,7 @@ const student_model_1 = require("../models/student.model");
 const generateIncrementalNumber_1 = require("../utils/generateIncrementalNumber");
 const batch_service_1 = require("./batch.service");
 const class_service_1 = require("./class.service");
+const bcrypt_1 = __importDefault(require("bcrypt"));
 class Service {
     createStudent(data) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -27,6 +28,7 @@ class Service {
             const nextStudentNumber = (0, generateIncrementalNumber_1.generateIncrementalNumber)(((_a = latestStudent[0]) === null || _a === void 0 ? void 0 : _a.studentId) || "0000");
             const incrementalId = `${data.batchNo}-${nextStudentNumber}`;
             data.studentId = incrementalId;
+            data.password = incrementalId;
             const isBatchExist = yield batch_model_1.Batch.findOne({ batchNo: data.batchNo });
             if (!isBatchExist) {
                 return false;
@@ -117,6 +119,14 @@ class Service {
     updateStudent(id, content) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield student_model_1.Student.findByIdAndUpdate(id, { $set: Object.assign({}, content) });
+        });
+    }
+    updateStudentPassword(studentId, password) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const hashedPass = yield bcrypt_1.default.hash(password, 12);
+            return yield student_model_1.Student.findOneAndUpdate({ studentId: studentId }, {
+                $set: { password: hashedPass },
+            });
         });
     }
 }
