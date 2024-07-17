@@ -46,8 +46,14 @@ const ClassesPage = () => {
       classItem.presentStudents.some((student) =>
         student.name.toLowerCase().includes(searchQuery.toLowerCase())
       ) ||
+      classItem.presentStudents.some((student) =>
+        student.studentId.toLowerCase().includes(searchQuery.toLowerCase())
+      ) ||
       classItem.absenceStudents.some((student) =>
         student.name.toLowerCase().includes(searchQuery.toLowerCase())
+      ) ||
+      classItem.absenceStudents.some((student) =>
+        student.studentId.toLowerCase().includes(searchQuery.toLowerCase())
       )
     );
   });
