@@ -1,6 +1,9 @@
+import { postApi } from "@/apis";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 type FormData = {
   email: string;
@@ -13,11 +16,39 @@ const StaffLogin = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleLogin: SubmitHandler<FormData> = (data) => {
-    console.log(data);
-    router.push("/dashboard");
+  const handleLogin: SubmitHandler<FormData> = async (data) => {
+    setLoading(true);
+    try {
+      const result: any = await postApi("auth/login", data);
+      if (result?.success == true) {
+        router.push("/dashboard");
+        toast.success(result?.message);
+        setLoading(false);
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Failed to login",
+          text: `Something went wrong to login: ${
+            result?.error?.message || ""
+          }`,
+        });
+        setLoading(false);
+      }
+    } catch (error) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Oops",
+        text: "Something went wrong to login",
+      });
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -77,10 +108,15 @@ const StaffLogin = () => {
       </div>
 
       <button
+        disabled={loading}
         type="submit"
-        className="w-full px-4 py-2 font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700"
+        className={`w-full px-4  text-sm lg:text-lg py-2 font-medium rounded-md  text-white ${
+          loading
+            ? "bg-gray-600 cursor-not-allowed"
+            : " bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700"
+        } `}
       >
-        Login as staff
+        {loading ? "Preparing your dashboard..." : "Login as staff"}
       </button>
     </form>
   );
