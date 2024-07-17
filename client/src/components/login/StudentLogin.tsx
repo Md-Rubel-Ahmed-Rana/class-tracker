@@ -1,6 +1,6 @@
 import { postApi } from "@/apis";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
@@ -15,15 +15,17 @@ const StudentLogin = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
-
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleLogin: SubmitHandler<FormData> = async (data) => {
+    setLoading(true);
     try {
       const result: any = await postApi("auth/student/login", data);
       if (result?.success == true) {
         router.push("/dashboard/student/my-info");
         toast.success(result?.message);
+        setLoading(false);
       } else {
         Swal.fire({
           position: "center",
@@ -33,6 +35,7 @@ const StudentLogin = () => {
             result?.error?.message || ""
           }`,
         });
+        setLoading(false);
       }
     } catch (error) {
       Swal.fire({
@@ -41,6 +44,9 @@ const StudentLogin = () => {
         title: "Oops",
         text: "Something went wrong to login",
       });
+      setLoading(false);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -72,10 +78,17 @@ const StudentLogin = () => {
       </div>
 
       <button
+        disabled={loading}
         type="submit"
-        className="w-full px-4 py-2 font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700"
+        className={`w-full px-4 py-2 font-medium rounded-md  text-white ${
+          loading
+            ? "bg-gray-600 cursor-not-allowed"
+            : " bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700"
+        } `}
       >
-        Login as student
+        {loading
+          ? "Hang tight, we're getting things ready..."
+          : "Login as student"}
       </button>
     </form>
   );
