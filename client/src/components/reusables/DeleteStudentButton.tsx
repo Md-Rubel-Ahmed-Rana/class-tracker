@@ -13,34 +13,47 @@ const DeleteStudentButton = ({ studentObjectId }: Props) => {
   const router = useRouter();
   const { setRefetchBatch } = useContext(AppContext);
   const handleDeleteBatch = async () => {
-    try {
-      const result: any = await deleteApi(`student/delete/${studentObjectId}`);
-      if (result?.success === true) {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Deletion successful",
-          text: result?.message,
-          timer: 2000,
-        });
-        setRefetchBatch((prev: any) => !prev);
-        router.reload();
-      } else {
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "Deletion failed",
-          text: result?.message || "Student was not deleted",
-        });
+    Swal.fire({
+      position: "center",
+      title: "Do you want to delete the student?",
+      text: "Note: This student will be removed permanently from batch and database",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const result: any = await deleteApi(
+            `student/delete/${studentObjectId}`
+          );
+          if (result?.success === true) {
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Deletion successful",
+              text: result?.message,
+              timer: 2000,
+            });
+            setRefetchBatch((prev: any) => !prev);
+            router.reload();
+          } else {
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Deletion failed",
+              text: result?.message || "Student was not deleted",
+            });
+          }
+        } catch (error: any) {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Something went wrong",
+            text: error?.message || "Student was not deleted",
+          });
+        }
       }
-    } catch (error: any) {
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: "Something went wrong",
-        text: error?.message || "Student was not deleted",
-      });
-    }
+    });
   };
   return (
     <button title="Delete the student" onClick={handleDeleteBatch}>
