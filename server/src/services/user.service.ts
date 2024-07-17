@@ -1,46 +1,11 @@
-import { config } from "../config/envConfig";
 import {
   GetUser,
-  LoginUser,
-  PostUser,
   UpdateUser,
   UserProjection,
 } from "../interfaces/user.interface";
 import { User } from "../models/user.model";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
 class Service {
-  async register(user: PostUser): Promise<void> {
-    const hashedPass = await bcrypt.hash(user.password, 12);
-    user.password = hashedPass;
-    await User.create(user);
-  }
-
-  async login(
-    credentials: LoginUser
-  ): Promise<{ accessToken: string } | boolean> {
-    const user = await User.findOne({ email: credentials.email });
-    if (!user) {
-      return false;
-    }
-
-    const isMatched = await bcrypt.compare(credentials.password, user.password);
-    if (!isMatched) {
-      return false;
-    }
-    const payload = {
-      userId: user._id,
-      email: user.email,
-      role: user.role,
-    };
-    const accessToken = jwt.sign(payload, config.jwt.accessTokenSecret, {
-      expiresIn: config.jwt.accessTokenExpire,
-    });
-
-    return { accessToken };
-  }
-
   async findUsers(
     searchText: string = "",
     filters: { [key: string]: any } = {},

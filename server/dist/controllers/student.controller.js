@@ -33,8 +33,7 @@ class Controller {
     getMyInfo(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const studentId = req.session.studentId;
-                const data = yield student_service_1.StudentService.getMyInfo(studentId);
+                const data = yield student_service_1.StudentService.getMyInfo(req.id);
                 res.status(200).json({
                     success: true,
                     message: "Student info fetched successfully!",

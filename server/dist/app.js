@@ -11,20 +11,19 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const root_routes_1 = require("./routes/root.routes");
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const validationError_1 = __importDefault(require("./errors/validationError"));
-const mongoStore_1 = require("./config/mongoStore");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.urlencoded({ extended: true }));
+app.use((0, helmet_1.default)());
+app.use((0, morgan_1.default)("dev"));
 app.use((0, cors_1.default)({
     origin: ["http://localhost:3000", "https://adcti-class-tracker.vercel.app"],
     credentials: true,
 }));
-app.use((0, helmet_1.default)());
-// set session middleware
-mongoStore_1.Session.connectSessionDatabase(app);
-app.use((0, morgan_1.default)("dev"));
 // application routes
 app.use("/api/v1", root_routes_1.RootRoutes);
 app.get("/", (req, res) => {

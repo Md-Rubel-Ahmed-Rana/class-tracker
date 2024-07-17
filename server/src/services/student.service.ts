@@ -3,6 +3,8 @@ import { INewStudent } from "../interfaces/student.interface";
 import { Batch } from "../models/batch.model";
 import { Student } from "../models/student.model";
 import { generateIncrementalNumber } from "../utils/generateIncrementalNumber";
+import { BatchService } from "./batch.service";
+import { ClassService } from "./class.service";
 
 class Service {
   async createStudent(data: INewStudent) {
@@ -42,8 +44,15 @@ class Service {
     return await Student.find({});
   }
 
-  async getMyInfo(studentId: string) {
-    return await Student.findOne({ studentId: studentId });
+  async getMyInfo(id: string) {
+    const myInfo = await Student.findById(id);
+    const myBatch = await BatchService.getSingleBatchByBatchNo(
+      myInfo?.batchNo as string
+    );
+    const myClasses = await ClassService.getClassesByBatchNo(
+      myInfo?.batchNo as string
+    );
+    return { student: myInfo, batch: myBatch, classes: myClasses };
   }
 
   async getStudentByBatchNo(batchNo: string) {

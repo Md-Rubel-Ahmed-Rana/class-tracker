@@ -17,6 +17,8 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const batch_model_1 = require("../models/batch.model");
 const student_model_1 = require("../models/student.model");
 const generateIncrementalNumber_1 = require("../utils/generateIncrementalNumber");
+const batch_service_1 = require("./batch.service");
+const class_service_1 = require("./class.service");
 class Service {
     createStudent(data) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -58,9 +60,12 @@ class Service {
             return yield student_model_1.Student.find({});
         });
     }
-    getMyInfo(studentId) {
+    getMyInfo(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield student_model_1.Student.findOne({ studentId: studentId });
+            const myInfo = yield student_model_1.Student.findById(id);
+            const myBatch = yield batch_service_1.BatchService.getSingleBatchByBatchNo(myInfo === null || myInfo === void 0 ? void 0 : myInfo.batchNo);
+            const myClasses = yield class_service_1.ClassService.getClassesByBatchNo(myInfo === null || myInfo === void 0 ? void 0 : myInfo.batchNo);
+            return { student: myInfo, batch: myBatch, classes: myClasses };
         });
     }
     getStudentByBatchNo(batchNo) {
