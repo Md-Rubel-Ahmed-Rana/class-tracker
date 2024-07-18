@@ -1,4 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { getApi } from "@/apis";
+import { useRouter } from "next/router";
 import {
   ReactNode,
   createContext,
