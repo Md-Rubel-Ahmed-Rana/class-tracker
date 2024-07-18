@@ -17,14 +17,16 @@ const AppProvider = ({ children }: Props) => {
   const [batches, setBatches] = useState([]);
   const [user, setUser] = useState<any>(null);
   const [userLoading, setUserLoading] = useState(false);
+  const [revalidateUser, setRevalidateUser] = useState(false);
   const [refetchBatch, setRefetchBatch] = useState(false);
 
   useEffect(() => {
     fetchBatches();
   }, [refetchBatch]);
+
   useEffect(() => {
     fetchLoggedInUser();
-  }, []);
+  }, [revalidateUser]);
 
   const fetchBatches = async () => {
     try {
@@ -52,6 +54,7 @@ const AppProvider = ({ children }: Props) => {
   const values = {
     user,
     userLoading,
+    setRevalidateUser,
     batches,
     setBatches,
     refetchBatch,

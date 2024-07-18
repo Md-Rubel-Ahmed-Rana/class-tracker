@@ -58,7 +58,7 @@ const StaffLogin = () => {
           htmlFor="email"
           className="block text-sm font-medium text-gray-700"
         >
-          Email
+          Email:
         </label>
         <input
           id="email"
@@ -85,7 +85,7 @@ const StaffLogin = () => {
           htmlFor="password"
           className="block text-sm font-medium text-gray-700"
         >
-          Password
+          Password:
         </label>
         <input
           id="password"

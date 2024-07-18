@@ -1,12 +1,14 @@
 import { postApi } from "@/apis";
+import { AppContext } from "@/context/AppProvider";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
 type FormData = {
   studentId: string;
+  password: string;
 };
 
 const StudentLogin = () => {
@@ -16,16 +18,28 @@ const StudentLogin = () => {
     formState: { errors },
   } = useForm<FormData>();
   const [loading, setLoading] = useState(false);
+  const { setRevalidateUser }: any = useContext(AppContext);
   const router = useRouter();
 
   const handleLogin: SubmitHandler<FormData> = async (data) => {
     setLoading(true);
     try {
       const result: any = await postApi("auth/student/login", data);
+      console.log(result);
       if (result?.success == true) {
         router.push("/dashboard/student/my-info");
         toast.success(result?.message);
         setLoading(false);
+        setRevalidateUser((prev: any) => !prev);
+      } else if (result?.response.status === 400) {
+        Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: "Bad Request",
+          text: result?.response?.data?.message,
+        });
+        setLoading(false);
+        router.push("/change-password");
       } else {
         Swal.fire({
           position: "center",
@@ -74,6 +88,28 @@ const StudentLogin = () => {
           <p className="mt-1 text-sm text-red-600">
             {errors.studentId.message}
           </p>
+        )}
+      </div>
+      <div>
+        <label
+          htmlFor="password"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Password:
+        </label>
+        <input
+          id="password"
+          type="password"
+          {...register("password", {
+            required: "Password is required",
+          })}
+          className={`w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200 ${
+            errors.password ? "border-red-500" : "border-gray-300"
+          }`}
+          placeholder="Enter your password"
+        />
+        {errors.password && (
+          <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
         )}
       </div>
 

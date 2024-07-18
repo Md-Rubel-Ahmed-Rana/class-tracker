@@ -15,15 +15,16 @@ const MyBatchMates = ({ students }: Props) => {
           students?.map((student) => (
             <div className="shadow-md p-3 rounded-md" key={student.id}>
               <h3>
-                <b>Name:</b> <span className="block">{student.name}</span>
+                <b>Name:</b>{" "}
+                <span className="block lg:inline">{student.name}</span>
               </h3>
               <p>
                 <b>Student ID:</b>
-                <span className="block">{student.studentId}</span>
+                <span className="block lg:inline">{student.studentId}</span>
               </p>
               <p>
                 <b>User ID: </b>
-                <span className="block">{student.id}</span>
+                <span className="block lg:inline">{student.id}</span>
               </p>
             </div>
           ))}
