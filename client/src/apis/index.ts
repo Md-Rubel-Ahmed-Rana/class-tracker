@@ -9,7 +9,7 @@ export const getApi = async (apiEndpoint: string) => {
     });
     return data?.data;
   } catch (error) {
-    console.log("Error", error);
+    return error;
   }
 };
 
@@ -20,7 +20,7 @@ export const postApi = async (apiEndpoint: string, payload: any) => {
     });
     return data?.data;
   } catch (error) {
-    console.log("Error", error);
+    return error;
   }
 };
 
@@ -31,7 +31,7 @@ export const patchApi = async (apiEndpoint: string, payload: any) => {
     });
     return data?.data;
   } catch (error) {
-    console.log("Error", error);
+    return error;
   }
 };
 
@@ -42,6 +42,6 @@ export const deleteApi = async (apiEndpoint: string) => {
     });
     return data?.data;
   } catch (error) {
-    console.log("Error", error);
+    return error;
   }
 };
