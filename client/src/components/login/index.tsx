@@ -1,9 +1,20 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import StaffLogin from "./StaffLogin";
 import StudentLogin from "./StudentLogin";
+import { useRouter } from "next/router";
+import { AppContext } from "@/context/AppProvider";
 
 const LoginPage = () => {
   const [userType, setUserType] = useState("student");
+  const router = useRouter();
+  const { user } = useContext(AppContext);
+  useEffect(() => {
+    if (user && user?.email) {
+      router.push("/dashboard");
+    } else if (user && user?.student?.studentId) {
+      router.push("/dashboard/student/my-info");
+    }
+  }, [router, user]);
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-3">
       <div className="w-full max-w-md p-3 lg:p-8 space-y-6 bg-white rounded shadow-md">

@@ -1,4 +1,5 @@
 import GetHead from "@/components/shared/HeadTag";
+import UsersPage from "@/components/users";
 import DashboardLayout from "@/layouts/dashboardLayout";
 import { ReactElement } from "react";
 
@@ -10,10 +11,7 @@ const Users = () => {
         description="This class tracker users page"
         keywords="ADC, Class Tracker"
       />
-
-      <h3 className="text-center text-3xl font-semibold py-5">
-        Show all users here
-      </h3>
+      <UsersPage />
     </section>
   );
 };

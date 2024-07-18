@@ -23,18 +23,25 @@ const StaffLogin = () => {
     setLoading(true);
     try {
       const result: any = await postApi("auth/login", data);
+      console.log(result?.response?.status === 401);
       if (result?.success == true) {
         router.push("/dashboard");
         toast.success(result?.message);
+        setLoading(false);
+      } else if (result?.response?.status === 401) {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: result?.response?.data?.message,
+          text: "Incorrect email or password",
+        });
         setLoading(false);
       } else {
         Swal.fire({
           position: "center",
           icon: "error",
           title: "Failed to login",
-          text: `Something went wrong to login: ${
-            result?.error?.message || ""
-          }`,
+          text: `Something went wrong to login: ${result?.data?.message || ""}`,
         });
         setLoading(false);
       }
