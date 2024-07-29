@@ -6,26 +6,24 @@ import Swal from "sweetalert2";
 import { FaTrashAlt } from "react-icons/fa";
 
 type Props = {
-  studentObjectId: string;
+  batchObjectId: string;
 };
 
-const DeleteStudentButton = ({ studentObjectId }: Props) => {
+const DeleteBatchIcon = ({ batchObjectId }: Props) => {
   const router = useRouter();
   const { setRefetchBatch } = useContext(AppContext);
-  const handleDeleteStudent = async () => {
+  const handleDeleteBatch = async () => {
     Swal.fire({
       position: "center",
-      title: "Do you want to delete the student?",
-      text: "Note: This student will be removed permanently from batch and database",
+      title: "Do you want to delete the batch?",
+      text: "Note: This batch will be removed permanently from database",
       showCancelButton: true,
       confirmButtonText: "Yes",
       cancelButtonText: "No",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const result: any = await deleteApi(
-            `student/delete/${studentObjectId}`
-          );
+          const result: any = await deleteApi(`batch/delete/${batchObjectId}`);
           if (result?.success === true) {
             Swal.fire({
               position: "center",
@@ -34,14 +32,14 @@ const DeleteStudentButton = ({ studentObjectId }: Props) => {
               text: result?.message,
               timer: 2000,
             });
-            // setRefetchBatch((prev: any) => !prev);
-            // router.reload();
+            setRefetchBatch((prev: any) => !prev);
+            router.reload();
           } else {
             Swal.fire({
               position: "center",
               icon: "error",
               title: "Deletion failed",
-              text: result?.message || "Student was not deleted",
+              text: result?.message || "Batch was not deleted",
             });
           }
         } catch (error: any) {
@@ -49,17 +47,17 @@ const DeleteStudentButton = ({ studentObjectId }: Props) => {
             position: "center",
             icon: "error",
             title: "Something went wrong",
-            text: error?.message || "Student was not deleted",
+            text: error?.message || "Batch was not deleted",
           });
         }
       }
     });
   };
   return (
-    <button title="Delete the student" onClick={handleDeleteStudent}>
+    <button title="Delete the batch" onClick={handleDeleteBatch}>
       <FaTrashAlt className="text-xl text-red-500" />
     </button>
   );
 };
 
-export default DeleteStudentButton;
+export default DeleteBatchIcon;

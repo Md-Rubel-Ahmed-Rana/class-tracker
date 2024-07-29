@@ -3,6 +3,8 @@ import React, { useContext, useState } from "react";
 import StudentModal from "../shared/StudentModal";
 import { IBatch } from "@/types/batch.type";
 import { AppContext } from "@/context/AppProvider";
+import DeleteBatchIcon from "../reusables/DeleteBatchIcon";
+import { FaEdit } from "react-icons/fa";
 
 const BatchesPage = () => {
   const { batches }: any = useContext(AppContext);
@@ -31,7 +33,18 @@ const BatchesPage = () => {
             key={batch.id}
             className="p-2 lg:p-4 border rounded-lg shadow-md"
           >
-            <h2 className="text-xl font-semibold">{batch.name}</h2>
+            <div className="flex justify-between items-center mb-2">
+              <h2 className="text-xl font-semibold">{batch.name}</h2>
+              <div className="flex items-center gap-2">
+                <Link
+                  href={`/batches/batch/edit/${batch.id}?batchNo=${batch.batchNo}&name=${batch.name}`}
+                  title="Edit batch info"
+                >
+                  <FaEdit className="text-xl text-sky-400" />
+                </Link>
+                <DeleteBatchIcon batchObjectId={batch.id} />
+              </div>
+            </div>
             <p>Batch No: {batch.batchNo}</p>
             <p>
               Starting Date: {new Date(batch.startingDate).toLocaleDateString()}
