@@ -98,7 +98,7 @@ const StudentsPage = () => {
           ) : (
             <div className="flex justify-center items-center mt-5">
               <h3 className="text-lg lg:text-2xl font-serif font-semibold">
-                No students enrolled yet
+                No students found!
               </h3>
             </div>
           )}

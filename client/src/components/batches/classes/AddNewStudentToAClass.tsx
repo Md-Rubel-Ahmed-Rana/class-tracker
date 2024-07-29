@@ -186,17 +186,19 @@ const AddNewStudentToAClass = ({
             </div>
           )}
         </div>
-        <button
-          disabled={updatedStudents.length < 1 || loading}
-          onClick={handleStudentUpdateApi}
-          className={`${
-            updatedStudents.length < 1 || loading
-              ? "bg-gray-500 cursor-not-allowed"
-              : "bg-blue-600"
-          } w-full py-2 rounded-md text-white font-semibold font-sans mt-3`}
-        >
-          {loading ? "Submitting changes" : "Save changes"}
-        </button>
+        {updatedStudents.length > 0 && (
+          <button
+            disabled={updatedStudents.length < 1 || loading}
+            onClick={handleStudentUpdateApi}
+            className={`${
+              updatedStudents.length < 1 || loading
+                ? "bg-gray-500 cursor-not-allowed"
+                : "bg-blue-600"
+            } w-full py-2 rounded-md text-white font-semibold font-sans mt-3`}
+          >
+            {loading ? "Submitting changes" : "Save changes"}
+          </button>
+        )}
       </div>
     </div>
   );
