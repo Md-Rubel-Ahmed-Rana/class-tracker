@@ -11,6 +11,7 @@ import handleZodValidationError from "./errors/validationError";
 dotenv.config();
 
 const app: Application = express();
+app.options("*", cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
@@ -18,7 +19,7 @@ app.use(helmet());
 app.use(morgan("dev"));
 app.use(
   cors({
-    origin: "*",
+    origin: ["https://adcti-class-tracker.vercel.app", "http://localhost:3000"],
     credentials: true,
   })
 );
