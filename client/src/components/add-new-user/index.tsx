@@ -5,6 +5,7 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
 type FormData = {
   name: string;
@@ -21,6 +22,7 @@ const AddNewUserPage = () => {
   } = useForm<FormData>();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const [toggle, setToggle] = useState("password");
 
   const handleRegister: SubmitHandler<FormData> = async (data) => {
     setLoading(true);
@@ -134,7 +136,7 @@ const AddNewUserPage = () => {
               <p className="mt-1 text-sm text-red-600">{errors.role.message}</p>
             )}
           </div>
-          <div>
+          <div className="relative">
             <label
               htmlFor="password"
               className="block text-sm font-medium text-gray-700"
@@ -143,7 +145,7 @@ const AddNewUserPage = () => {
             </label>
             <input
               id="password"
-              type="password"
+              type={toggle}
               {...register("password", {
                 required: "Password is required",
               })}
@@ -152,6 +154,23 @@ const AddNewUserPage = () => {
               }`}
               placeholder="Enter your password"
             />
+            {toggle === "password" ? (
+              <button
+                type="button"
+                onClick={() => setToggle("text")}
+                className="absolute top-9 right-2"
+              >
+                <IoMdEyeOff />
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setToggle("password")}
+                className="absolute top-9 right-2"
+              >
+                <IoMdEye />
+              </button>
+            )}
             {errors.password && (
               <p className="mt-1 text-sm text-red-600">
                 {errors.password.message}
@@ -168,7 +187,7 @@ const AddNewUserPage = () => {
                 : " bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700"
             } `}
           >
-            {loading ? "Registering..." : "Submit"}
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
       </div>
