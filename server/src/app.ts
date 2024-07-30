@@ -18,7 +18,7 @@ app.use(helmet());
 app.use(morgan("dev"));
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://adcti-class-tracker.vercel.app"],
+    origin: "*",
     credentials: true,
   })
 );
