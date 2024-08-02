@@ -15,7 +15,6 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const validationError_1 = __importDefault(require("./errors/validationError"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-app.options("*", (0, cors_1.default)());
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.urlencoded({ extended: true }));
