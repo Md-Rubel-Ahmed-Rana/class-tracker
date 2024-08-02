@@ -11,7 +11,6 @@ import handleZodValidationError from "./errors/validationError";
 dotenv.config();
 
 const app: Application = express();
-app.options("*", cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
