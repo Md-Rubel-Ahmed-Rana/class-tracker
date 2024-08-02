@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const baseApi = "https://class-tracker.up.railway.app/api/v1";
+export const baseApi = "https://api-class-tracker.onrender.com/api/v1";
 
 export const getApi = async (apiEndpoint: string) => {
   try {
